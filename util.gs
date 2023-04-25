@@ -31,3 +31,21 @@ function deepMap(values, index, action) {
   }
   return values.map((value, index) => deepMap(value, index, action))
 }
+
+function getUserCode (row) {
+  return row[0]
+}
+
+function getUserName (row) {
+  return row[1]
+}
+
+function isUserRow (row) {
+  const fiveDigits = /\d{5}/
+  return fiveDigits.test(row[0])
+}
+
+function isUserRowTest () {
+  const rows = [[12345, '이준호'], [321, '김미진'], ['가방', '이한음']]
+  rows.forEach((row) => console.log(isUserRow(row)))
+}

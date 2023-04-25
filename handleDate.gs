@@ -79,7 +79,6 @@ function getPositionOfRange(startDay, endDay) {
       }
   )([startDay, endDay])
   
-
   return (sheetName, row) => {
     const CurrentFullYear = 2023
     return parallel(
@@ -95,7 +94,7 @@ function getPositionOfRange(startDay, endDay) {
           return dateInfo.map(({position}) => position)
         }
     )(getDateMonthAndDate(sheetName, row))(
-      ([validateIndex, positions]) => positions.filter((position, positionIdx) => validateIndex.find(index => index === positionIdx))
+      ([validateIndex, positions]) => validateIndex.map((idx) => positions[idx])
     )    
   }
 }

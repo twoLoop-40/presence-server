@@ -15,3 +15,19 @@ function getOneRowRange({sheet, row}) {
 function attachSSName(sheetHandler) {
   return (ssName, sheetName, row) => sheetHandler(sheetName, row)(ssName)
 }
+
+function attachIdx(...indexNumsInsert) {
+  let sortedIdxes = [...indexNumsInsert].sort((a, b) => a - b < 0)
+  return (givenIndexNums) => {
+    const resultIdxes = []
+    givenIndexNums.forEach((idx) => {
+      while(sortedIdxes.length > 0 && sortedIdxes[0] <= idx) {
+        resultIdxes.push(sortedIdxes[0])
+        sortedIdxes = sortedIdxes.slice(1)
+      }
+      resultIdxes.push(idx)
+    })
+    return resultIdxes
+  }
+}
+
