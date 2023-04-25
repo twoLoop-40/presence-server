@@ -11,6 +11,20 @@ function pipe (...funs) {
   }    
 }
 
+function parallel (...fns) {
+  if (fns.length === 0) {
+    return null
+  }
+  return (arg) => {
+    try {
+      const jobs = fns.map((fn) => fn(arg))
+      return (finalWork) => finalWork(jobs)
+    } catch (err) {
+      console.error('Error Occured in parallel', err)
+    }
+  }
+}
+
 function deepMap(values, index, action) {
   if(!Array.isArray(values)) {
     return action(values, index)

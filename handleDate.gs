@@ -11,9 +11,13 @@ function getRangeOfDate (sheetName, row = 3) {
 
 function getDateInfo(sheetName, row) {
   const SS_NAME = 'kongLecture'
-  const getDateValues = attachSSName(getRangeOfDate)
-  const dateValuesUnfiltered = getDateValues(SS_NAME, sheetName, row).getValues();
+  const dateValuesUnfiltered = pipe(
+    attachSSName,
+    (getDateValues) => getDateValues(SS_NAME, sheetName, row).getValues()
+  )(getRangeOfDate)
+
   let dateInfo = []
+
   deepMap(dateValuesUnfiltered, 0,(value, index) => {
     if(value !== undefined && value instanceof Date){
       const dateTime = value.getTime()
@@ -32,6 +36,11 @@ function getMonthAndDate(dateTime) {
   return {month: dateObj.getMonth() + 1, date: dateObj.getDate()}
 }
 
+function getTimeFrom(fullYear, month, time) {
+  const date = new Date(fullYear, month, time)
+  return date.getTime()
+}
+
 function getDateMonthAndDate(sheetName, row) {
   return pipe(
     getDateInfo,
@@ -39,4 +48,14 @@ function getDateMonthAndDate(sheetName, row) {
       return {monthDate: getMonthAndDate(dateTime), position}
     })
   )(sheetName, row)
+}
+
+function getDateRange(startDay, endDay) {
+  return [startDay, endDay].map((date) => {
+    return pipe(
+      (dateString) => dateString.split('-'),
+      ([fullYear, month, date]) => new Date(fullYear, month, date),
+      (date) => date.getTime()
+    )(date)
+  })
 }
