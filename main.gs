@@ -2,12 +2,11 @@ function test() {
   const SS_NAME = 'kongLecture'
   const SHEET_NAME = '2023 1학기'
   const ROW = 3
-  const startDay = '2023-4-6'
+  const startDay = '2023-4-7'
   const endDay = '2023-5-17'
   
-  console.log(getDateMonthAndDate(SHEET_NAME, ROW))
-  console.log(getDateRange(startDay, endDay))
-
+  const positions = getPositionOfRange(startDay, endDay)(SHEET_NAME, ROW)
+  console.log(positions)
 }
 
 function doGet(e) {

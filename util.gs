@@ -20,7 +20,7 @@ function parallel (...fns) {
       const jobs = fns.map((fn) => fn(arg))
       return (finalWork) => finalWork(jobs)
     } catch (err) {
-      console.error('Error Occured in parallel', err)
+      console.error('Error Occured in parallel:', err)
     }
   }
 }
