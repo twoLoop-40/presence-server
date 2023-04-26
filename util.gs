@@ -25,6 +25,22 @@ function parallel (...fns) {
   }
 }
 
+function transformObject (...keys) {
+  const o = {}
+  return (values) => {
+    pipe(
+      (values) => {
+        if(values.length !== keys.length) {
+          throw new Error('length is different') 
+         }
+        return values
+      },
+      (values) => keys.forEach((key, idx) => o[key] = values[idx])
+    )(values)
+    return o
+  }
+}
+
 function deepMap(values, index, action) {
   if(!Array.isArray(values)) {
     return action(values, index)

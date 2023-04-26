@@ -48,6 +48,13 @@ function doGet(e) {
   const TOTAL_LECTURE_COUNT = 12
  
   const type = getTypeOf(e)
+
+  if (type === 'lectureName') {
+    const lectureNameList = getLectureNameList('사용자코드')
+    lectureNameList 
+      ? makeJSONresponse({ok: true, data: lectureNameList})
+      : makeJSONresponse({ok: false})
+  }
   
   if (type === 'presenceInfoReq'){
     const positions = pipe(

@@ -31,3 +31,28 @@ function attachIdx(...indexNumsInsert) {
   }
 }
 
+function isInList(elem, list) {
+  for (const item of list) {
+    if(elem === item) {
+      return true
+    }
+  }
+  return false
+}
+
+function getLectureNameList (...nonLectureNameList) {
+  if(nonLectureNameList.length === 0) {nonLectureNameList.push('사용자코드')}
+  
+  const lectureList = pipe(
+    getSpreadSheet,
+    (spreadsheet) => spreadsheet.getSheets()
+      .map((sheet) => sheet.getName())
+      .filter((name) => !isInList(name, nonLectureNameList)),
+    (sheetNames) => {
+      console.log(sheetNames)
+      return sheetNames.map((sheetName, idx) => transformObject('id', 'lectureName')([idx + 1, sheetName]))
+    })()
+  console.log(lectureList)
+  return lectureList
+}
+
